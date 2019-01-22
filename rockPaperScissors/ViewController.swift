@@ -11,11 +11,17 @@ import UIKit
 class ViewController: UIViewController {
 
     
+    @IBOutlet var tapGesture: UITapGestureRecognizer!
     @IBOutlet weak var topLeftHand: UIImageView!
     @IBOutlet weak var topRightHand: UIImageView!
-    var random = Int.random(in: 0...2)
-    var random2 = Int.random(in: 0...2)
+    var random: Int
+    var random2: Int
     @IBOutlet var EnemyPlayerHand: [UIImageView]!
+    @IBOutlet weak var yourHand: UIImageView!
+    @IBOutlet weak var rockSelection: UIImageView!
+    @IBOutlet weak var paperSelection: UIImageView!
+    @IBOutlet weak var scissorSelection: UIImageView!
+    @IBOutlet var choiceOfHands: [UIImageView]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +34,45 @@ class ViewController: UIViewController {
         var win: Bool = false
         for hand in EnemyPlayerHand {
             if hand.image == UIImage(named: "rock") {
-                topLeftHand
+                //topLeftHand
             }
         }
     }
+    
+    
 
 
     @IBAction func whenPlayPressed(_ sender: UIButton) {
+        random = Int.random(in: 0...2)
+        random2 = Int.random(in: 0...2)
+        giveEnemyHandChoice()
+        
+        
+    }
+    
+    @IBAction func whenTappedOnScreen(_ sender: UITapGestureRecognizer) {
+        let selectedPoint = sender.location(in: view)
+        
+        //let selectedPointOnBlankView = sender.location(in: blankView)
+        print(tapGesture)
+        for hand in choiceOfHands {
+            if hand.frame.contains(selectedPoint) {
+                var winLeft: Bool = false
+                var winRight: Bool = false
+                switch hand {
+                    case "rock":
+                    
+                }
+                
+                if hand.image = "rock"
+                
+            }
+        }
+    }
+    
+    
+    
+    func giveEnemyHandChoice() {
         
         var hand: UIImage!
         switch random {
@@ -65,7 +103,6 @@ class ViewController: UIViewController {
         default:
             return
         }
-        
     }
     
 }

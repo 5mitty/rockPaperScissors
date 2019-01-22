@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VZc-hc-RJH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="rock" translatesAutoresizingMaskIntoConstraints="NO" id="VZc-hc-RJH">
                                 <rect key="frame" x="97" y="347" width="220" height="220"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -38,31 +38,54 @@
                                     <action selector="whenPlayPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="de8-GY-V5d"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nsE-on-FVk">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="rock" translatesAutoresizingMaskIntoConstraints="NO" id="nsE-on-FVk">
                                 <rect key="frame" x="20" y="700" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iWD-Hz-zXM">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="paper" translatesAutoresizingMaskIntoConstraints="NO" id="iWD-Hz-zXM">
                                 <rect key="frame" x="157" y="700" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bwd-jJ-EOz">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="scissors" translatesAutoresizingMaskIntoConstraints="NO" id="Bwd-jJ-EOz">
                                 <rect key="frame" x="294" y="700" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="WgZ-6z-1UJ" appends="YES" id="dMz-BY-0Ti"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="paperSelection" destination="iWD-Hz-zXM" id="ux7-Di-Q8F"/>
+                        <outlet property="rockSelection" destination="nsE-on-FVk" id="A0L-w1-uUz"/>
+                        <outlet property="scissorSelection" destination="Bwd-jJ-EOz" id="veG-jv-MIb"/>
+                        <outlet property="tapGesture" destination="WgZ-6z-1UJ" id="ewk-Qt-M6M"/>
                         <outlet property="topLeftHand" destination="Pbb-Ij-I7M" id="qa3-Wj-p9J"/>
                         <outlet property="topRightHand" destination="t8C-vM-jYf" id="yfI-YV-wL9"/>
+                        <outlet property="yourHand" destination="VZc-hc-RJH" id="z7t-GP-XiW"/>
                         <outletCollection property="EnemyPlayerHand" destination="t8C-vM-jYf" collectionClass="NSMutableArray" id="YN0-eq-um6"/>
+                        <outletCollection property="EnemyPlayerHand" destination="Pbb-Ij-I7M" collectionClass="NSMutableArray" id="4MW-hh-NeU"/>
+                        <outletCollection property="choiceOfHands" destination="nsE-on-FVk" collectionClass="NSMutableArray" id="ywc-KV-WAM"/>
+                        <outletCollection property="choiceOfHands" destination="iWD-Hz-zXM" collectionClass="NSMutableArray" id="LHb-yK-4hh"/>
+                        <outletCollection property="choiceOfHands" destination="Bwd-jJ-EOz" collectionClass="NSMutableArray" id="p6B-dC-BYi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="WgZ-6z-1UJ">
+                    <connections>
+                        <action selector="whenTappedOnScreen:" destination="BYZ-38-t0r" id="59l-UY-WoM"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="117.85714285714285"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="paper" width="330" height="330"/>
+        <image name="rock" width="330" height="330"/>
+        <image name="scissors" width="330" height="330"/>
+    </resources>
 </document>
