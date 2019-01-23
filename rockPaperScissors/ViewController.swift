@@ -14,14 +14,18 @@ class ViewController: UIViewController {
     @IBOutlet var tapGesture: UITapGestureRecognizer!
     @IBOutlet weak var topLeftHand: UIImageView!
     @IBOutlet weak var topRightHand: UIImageView!
-    var random: Int
-    var random2: Int
+    var random: Int = 0
+    var random2: Int = 0
     @IBOutlet var EnemyPlayerHand: [UIImageView]!
     @IBOutlet weak var yourHand: UIImageView!
     @IBOutlet weak var rockSelection: UIImageView!
     @IBOutlet weak var paperSelection: UIImageView!
     @IBOutlet weak var scissorSelection: UIImageView!
     @IBOutlet var choiceOfHands: [UIImageView]!
+    @IBOutlet weak var victoryLabel: UILabel!
+    @IBOutlet weak var timerLabel: UILabel!
+    var timerIsOn: Bool = false
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,44 +36,79 @@ class ViewController: UIViewController {
     
     func determineWinner() {
         var win: Bool = false
+        var tie: Bool = false
         for hand in EnemyPlayerHand {
             if hand.image == UIImage(named: "rock") {
-                //topLeftHand
+                if yourHand.image == UIImage(named: "rock") {
+                    win = false
+                    tie = true
+                }
+                if yourHand.image == UIImage(named: "paper") {
+                    win = true
+                }
+                if yourHand.image == UIImage(named: "scissors") {
+                    win = false
+                }
+            }
+            if hand.image == UIImage(named: "paper") {
+                if yourHand.image == UIImage(named: "rock") {
+                    win = false
+                }
+                if yourHand.image == UIImage(named: "paper") {
+                    win = false
+                    tie = true
+                }
+                if yourHand.image == UIImage(named: "scissors") {
+                    win = true
+                }
+            }
+            if hand.image == UIImage(named: "paper") {
+                if yourHand.image == UIImage(named: "rock") {
+                    win = false
+                }
+                if yourHand.image == UIImage(named: "paper") {
+                    win = false
+                    tie = true
+                }
+                if yourHand.image == UIImage(named: "scissors") {
+                    win = true
+                }
             }
         }
+        if win == true {
+            victoryLabel.text = "You Win"
+        }
+        if tie == true {
+            victoryLabel.text = "You Tie"
+        } else {
+            victoryLabel.text = "You Lose"
+        }
     }
-    
-    
-
 
     @IBAction func whenPlayPressed(_ sender: UIButton) {
         random = Int.random(in: 0...2)
         random2 = Int.random(in: 0...2)
         giveEnemyHandChoice()
-        
+        determineWinner()
         
     }
     
     @IBAction func whenTappedOnScreen(_ sender: UITapGestureRecognizer) {
         let selectedPoint = sender.location(in: view)
-        
+
         //let selectedPointOnBlankView = sender.location(in: blankView)
         print(tapGesture)
         for hand in choiceOfHands {
             if hand.frame.contains(selectedPoint) {
-                var winLeft: Bool = false
-                var winRight: Bool = false
-                switch hand {
-                    case "rock":
-                    
-                }
-                
-                if hand.image = "rock"
-                
+                yourHand.image = hand.image
+
             }
         }
     }
     
+    @IBAction func whenStartButtonPressed(_ sender: Any) {
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: , userInfo: nil, repeats: false)
+    }
     
     
     func giveEnemyHandChoice() {
