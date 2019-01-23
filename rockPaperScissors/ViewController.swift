@@ -26,6 +26,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     var timerIsOn: Bool = false
     var timer = Timer()
+    var globalWin: Bool = false
+    var count: Int = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +109,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func whenStartButtonPressed(_ sender: Any) {
-        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: , userInfo: nil, repeats: false)
+        timerIsOn = true
+        count = 3
+        timerLabel.text = "\(count)"
+        if timerIsOn {
+            timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+                if self.count > 0 {
+                    self.count -= 1
+                }
+                self.timerLabel.text = "\(self.count)"
+                if self.count == 0 {
+                    self.victoryLabel.text = "You Lose"
+                    self.timerIsOn = false
+                }
+            })
+        }
     }
     
     
