@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class ViewController: UIViewController {
 
@@ -24,10 +25,15 @@ class ViewController: UIViewController {
     @IBOutlet var choiceOfHands: [UIImageView]!
     @IBOutlet weak var victoryLabel: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
-    var timerIsOn: Bool = false
+    @IBOutlet weak var startButton: UIButton!
+    var timerIsOn: Bool = true
     var timer = Timer()
     var globalWin: Bool = false
     var count: Int = 3
+    var allowPlay: Bool = false
+    var detectedPlay: Bool = false
+    var usedPlayButton: Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,19 +85,33 @@ class ViewController: UIViewController {
         }
         if win == true {
             victoryLabel.text = "You Win"
+            startButton.isEnabled = true
+            setVarsToInit()
         }
         if tie == true {
             victoryLabel.text = "You Tie"
+            startButton.isEnabled = true
+            setVarsToInit()
         } else {
             victoryLabel.text = "You Lose"
+            startButton.isEnabled = true
+            setVarsToInit()
         }
     }
 
     @IBAction func whenPlayPressed(_ sender: UIButton) {
-        random = Int.random(in: 0...2)
-        random2 = Int.random(in: 0...2)
-        giveEnemyHandChoice()
-        determineWinner()
+        if allowPlay {
+            random = Int.random(in: 0...2)
+            random2 = Int.random(in: 0...2)
+            detectedPlay = true
+            giveEnemyHandChoice()
+            determineWinner()
+            setVarsToInit()
+            startButton.isEnabled = false
+            allowPlay = false
+            usedPlayButton = true
+        }
+        
         
     }
     
@@ -99,30 +119,55 @@ class ViewController: UIViewController {
         let selectedPoint = sender.location(in: view)
 
         //let selectedPointOnBlankView = sender.location(in: blankView)
+        
         print(tapGesture)
         for hand in choiceOfHands {
             if hand.frame.contains(selectedPoint) {
-                yourHand.image = hand.image
-
+                print(allowPlay)
+                if allowPlay {
+                    yourHand.image = hand.image
+                }
+                if !allowPlay {
+                    self.victoryLabel.text = "You cannot select until you press 'Start'"
+                }
             }
         }
     }
     
-    @IBAction func whenStartButtonPressed(_ sender: Any) {
+    @IBAction func whenStartButtonPressed(_ sender: UIButton) {
+        topLeftHand.image = UIImage(named: "")
+        topRightHand.image = UIImage(named: "")
         timerIsOn = true
         count = 3
         timerLabel.text = "\(count)"
+        victoryLabel.text = "-"
         if timerIsOn {
             timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
                 if self.count > 0 {
                     self.count -= 1
+                    self.timerLabel.text = "\(self.count)"
+                    print(self.count)
                 }
-                self.timerLabel.text = "\(self.count)"
+                
                 if self.count == 0 {
-                    self.victoryLabel.text = "You Lose"
+                    if !self.detectedPlay {
+                        
+                        self.victoryLabel.text = "You Lose"
+                        self.setVarsToInit()
+                    }
+                    print(self.count)
+                    
                     self.timerIsOn = false
+                    self.timerLabel.text = "\(self.count)"
+                    self.setEnemySetWinner()
+                    self.allowPlay = true
+                    self.timer.invalidate()
                 }
+                
+                
             })
+            
+            
         }
     }
     
@@ -160,5 +205,31 @@ class ViewController: UIViewController {
         }
     }
     
+    func setEnemySetWinner() {
+        if !usedPlayButton {
+            random = Int.random(in: 0...2)
+            random2 = Int.random(in: 0...2)
+            detectedPlay = true
+            giveEnemyHandChoice()
+            determineWinner()
+            setVarsToInit()
+        }
+        
+    }
+    
+    func setVarsToInit() {
+        usedPlayButton = false
+        allowPlay = false
+    }
+    
+    @IBAction func whenHowToPlayPressed(_ sender: UIBarButtonItem) {
+        if let url = URL(string: "http://www.rinkworks.com/games/rps.shtml") {
+            print("if let done")
+            let safariViewController = SFSafariViewController(url:
+                url)
+            present(safariViewController, animated: true,
+                    completion: nil)
+        }
+    }
 }
 
