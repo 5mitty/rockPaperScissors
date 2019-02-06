@@ -101,13 +101,13 @@ class ViewController: UIViewController {
 
     @IBAction func whenPlayPressed(_ sender: UIButton) {
         if allowPlay {
+            count = 0
             random = Int.random(in: 0...2)
             random2 = Int.random(in: 0...2)
             detectedPlay = true
             giveEnemyHandChoice()
             determineWinner()
             setVarsToInit()
-            startButton.isEnabled = false
             allowPlay = false
             usedPlayButton = true
         }
@@ -141,6 +141,7 @@ class ViewController: UIViewController {
         count = 3
         timerLabel.text = "\(count)"
         victoryLabel.text = "-"
+        allowPlay = true
         if timerIsOn {
             timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
                 if self.count > 0 {
@@ -160,7 +161,6 @@ class ViewController: UIViewController {
                     self.timerIsOn = false
                     self.timerLabel.text = "\(self.count)"
                     self.setEnemySetWinner()
-                    self.allowPlay = true
                     self.timer.invalidate()
                 }
                 
